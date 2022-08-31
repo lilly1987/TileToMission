@@ -43,7 +43,7 @@ namespace MyApp // Note: actual namespace depends on the project name.
             {
                 Console.WriteLine(mission);
                 mTxt = File.ReadAllText(mission);
-                File.WriteAllText(Path.ChangeExtension(mission,null), Regex.Replace(mTxt, "//tile\r?\n", tileTxt));
+                File.WriteAllText(Path.ChangeExtension(mission,null), Regex.Replace(mTxt, "//#tile-all\r?\n", tileTxt));
             }
 
             Console.ReadLine();
