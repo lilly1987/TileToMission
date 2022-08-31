@@ -15,7 +15,9 @@ namespace MyApp // Note: actual namespace depends on the project name.
         {
             if (args.Length == 0)
             {
-                Console.WriteLine("need folder");
+                Console.WriteLine("need folder\nany key exit");
+                Console.ReadLine();
+                return;
             }
             Console.WriteLine(args[0]);
             FileAttributes chkAtt = File.GetAttributes(args[0]);
@@ -23,7 +25,6 @@ namespace MyApp // Note: actual namespace depends on the project name.
             {
                 // 디렉토리일 경우
                 //Console.WriteLine("folder");
-                //tiles = Directory.GetFiles(args[0] + "\\biomes", "*.tile", SearchOption.AllDirectories);
                 dirs = Directory.GetDirectories(args[0] + "\\biomes").Select(x => Path.GetFileName(x));
                 missions = Directory.GetFiles(args[0] + "\\missions", "*.mission.tmp", SearchOption.AllDirectories);
             }
