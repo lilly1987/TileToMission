@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "TileToMission": {
+      "commandName": "Project",
+      "commandLineArgs": "\"C:\\Games\\The Riftbreaker bak\\Riftbreaker-Lilly-Map-Pack\""
+    }
+  }
+}
