@@ -9,7 +9,7 @@ namespace MyApp // Note: actual namespace depends on the project name.
         static IEnumerable<string?> dirs;
         static string[] missions;
         static Dictionary<string, StringBuilder> dird = new Dictionary<string, StringBuilder>();
-        static Dictionary<string, string> txtd = new Dictionary<string, string>();
+        static Dictionary<string, string> reps = new Dictionary<string, string>();
 
         static void Main(string[] args)
         {
@@ -19,7 +19,10 @@ namespace MyApp // Note: actual namespace depends on the project name.
                 Console.ReadLine();
                 return;
             }
-            Console.WriteLine(args[0]);
+
+            
+
+            //Console.WriteLine(args[0]);
             FileAttributes chkAtt = File.GetAttributes(args[0]);
             if ((chkAtt & FileAttributes.Directory) == FileAttributes.Directory)
             {
@@ -33,7 +36,7 @@ namespace MyApp // Note: actual namespace depends on the project name.
             dird["all"] = new StringBuilder();
             foreach (var item in dirs)
             {
-                Console.WriteLine(item);
+                //Console.WriteLine(item);
                 dird[item] = new StringBuilder();
                 foreach (var tile in Directory.GetFiles(args[0] + "\\biomes\\"+ item, "*.tile", SearchOption.AllDirectories))
                 {
@@ -48,9 +51,22 @@ namespace MyApp // Note: actual namespace depends on the project name.
                 }
             }
 
+            //File.ReadAllText(args[0] + "\\missions\\#key#value.txt")
+            string[] t;
+            foreach (var item in File.ReadAllLines(args[0] + "\\missions\\#key#value.txt"))
+            {
+                t = item.Split("\t", 2);
+                //Console.WriteLine($"{item} , {t.Length}");
+                //Console.WriteLine($"{t[0]}");
+                if (t.Length==2)
+                {
+                    //Console.WriteLine($"{t[0]} , {t[1]}");
+                    reps[t[0]] = t[1];
+                }
+            } 
             foreach (var item in dird.Keys)
             {
-                txtd[item] = dird[item].ToString();
+                reps["//#tile-" + item + "\r?\n"] = dird[item].ToString();
             }
 
             string mTxt;
@@ -59,9 +75,9 @@ namespace MyApp // Note: actual namespace depends on the project name.
                 Console.WriteLine(mission);
                 mTxt = File.ReadAllText(mission);
 
-                foreach (var item in txtd.Keys)
+                foreach (var item in reps.Keys)
                 {
-                    mTxt = Regex.Replace(mTxt, "//#tile-" + item + "\r?\n", txtd[item]);
+                    mTxt = Regex.Replace(mTxt, item, reps[item]);
                 }
                 File.WriteAllText(Path.ChangeExtension(mission, null), mTxt);
             }
